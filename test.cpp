@@ -8,6 +8,7 @@
 #include <chrono>
 
 #include "thread_pool.h"
+#include "399.h"
 //#include "seg_tree.h"
 //#include "bst_map.h"
 
@@ -27,16 +28,27 @@ int main()
 
 	int poolsize = 4;
 	int totaljob = 1000;
-	int jobsize =  10000;
-	
+	int jobsize = 10000;
+
+	//thread_pool_test(4, totaljob, jobsize);
+	//threads_no_pooling_test(totaljob, jobsize);
 	//thread_pool_test(1, totaljob, jobsize);
 	//thread_pool_test(2, totaljob, jobsize);
-	thread_pool_test(4, totaljob, jobsize);
-	threads_no_pooling_test(totaljob, jobsize);
 	//thread_pool_test(8, totaljob, jobsize);
 	//thread_pool_test(16, totaljob, jobsize);
 	//thread_pool_test(32, totaljob, jobsize);
 
+	Solution sol;
+	vector<pair<string, string>> equations = { { "a", "b" },{ "b", "c" } };
+	vector<double> values = { 2.0, 3.0 };
+	vector<pair<string, string>> queries = { { "a", "c" },{ "b", "a" },{ "a", "e" },{ "a", "a" },{ "x", "x" } };
+	auto answers = sol.calcEquation(equations,values,queries);
+	cout << "answers = {";
+	for (auto& a : answers)
+	{
+		cout << a << ", ";
+	}
+	cout << "\b\b}" << endl;
 	getchar();
 }
 
