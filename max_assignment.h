@@ -1,3 +1,4 @@
+#include <type_traits>
 #include <vector>
 #include <deque>
 #include <limits>
@@ -52,6 +53,9 @@ namespace stdx
 	std::vector<ptrdiff_t>
 		max_weight_bipartite_matching(const TCost &cost, size_t n_rows, size_t n_cols);
 
+	// To-do, add overloads wrapper for T[][] or vector<T[]> or array<array<T>> etc...
+	// To-do, use output iterator to return value, so that the signature looks like
+	// scalar_t max_assignment(const TCost&, TOutItr);
 	template <class TCost>
 	std::vector<ptrdiff_t>
 		max_weight_bipartite_matching(const TCost &cost_) {
@@ -66,6 +70,7 @@ namespace stdx
 		max_weight_bipartite_matching(const TCost &cost_, size_t nr, size_t nc)
 	{
 		using scalar_t = remove_cv_t<remove_const_t<decltype(cost_(0, 0))>>;
+		static_assert(std::is_arithmetic<scalar_t>::value, "scalar type must be arithmetic.");
 		using index_t = ptrdiff_t;
 		using namespace impl;
 		using namespace std;
