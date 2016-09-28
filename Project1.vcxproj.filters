@@ -27,6 +27,9 @@
     <ClInclude Include="399.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="max_assignment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test.cpp">

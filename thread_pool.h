@@ -4,6 +4,7 @@
 #include <queue>
 #include <functional>
 #include <unordered_set>
+#include <new>
 
 using namespace std;
 
@@ -76,7 +77,7 @@ namespace stdx
 				{
 					lock_guard<mutex> lk(pool->awaiter_mtx);
 					pool->finished_jobs.insert(job.id);
-				}
+				} // release mutex lock, before notity
 				pool->awaiter.notify_all(); // TODO, as all the caller thread are waiting 
 			}
 
@@ -91,6 +92,25 @@ namespace stdx
 				this->job = move(pool->jobs.top());
 				pool->jobs.pop();
 				return true;
+
+
+				struct s_ptr {
+					struct control_block {
+						int ref_count;
+					} *ctl;
+					int * ptr;
+					void make(int val)
+					{
+						char* buffer = (char*)malloc(sizeof(int) + sizeof(control_block));
+						ptr = new(buffer)int(val);
+						ctl = new(buffer + sizeof(int))control_block{0};
+					}
+				};
+
+				std::vector<int> v;
+				v.emplace_back(5);
+				auto spi = make_shared<int>(5); // 1 malloc
+				auto spi2 = shared_ptr<int>(new int(5)); // 2 malloc
 			}
 		};
 

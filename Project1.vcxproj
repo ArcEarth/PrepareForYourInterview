@@ -124,6 +124,7 @@
   <ItemGroup>
     <ClInclude Include="399.h" />
     <ClInclude Include="bst_map.h" />
+    <ClInclude Include="max_assignment.h" />
     <ClInclude Include="seg_tree.h" />
     <ClInclude Include="thread_pool.h" />
   </ItemGroup>

@@ -9,6 +9,7 @@
 
 #include "thread_pool.h"
 #include "399.h"
+#include "max_assignment.h"
 //#include "seg_tree.h"
 //#include "bst_map.h"
 
@@ -20,6 +21,16 @@ void threads_no_pooling_test(int totaljob, int jobsize);
 void bst_test();
 void seg_tree_test();
 
+template <typename T>
+struct mat_t {
+	T *a;
+	size_t nr, nc;
+	T operator()(int i, int j) const { return a[i * nc + j]; }
+	T& operator()(int i, int j) { return a[i * nc + j]; }
+	size_t rows() const { return nr; }
+	size_t cols() const { return nc; }
+};
+
 
 int main()
 {
@@ -30,6 +41,23 @@ int main()
 	int totaljob = 1000;
 	int jobsize = 10000;
 
+	float a[] =
+	{ 3.0f,2.0f,3.0f,
+	4.0f,9.0f,6.0f,
+	7.0f,15.0f,9.0f };
+
+	mat_t<float> m{ a,3,3 };
+
+	auto matching = stdx::max_weight_bipartite_matching(m);
+	auto cost = stdx::matching_cost(m, matching);
+
+	cout << "Assignment = {";
+	for (int i = 0; i < 3; i++)
+		cout << matching[i] << ", ";
+	cout << "\b\b}" << endl << "Cost = " << cost << endl;
+
+	getchar();
+	exit(0);
 	//thread_pool_test(4, totaljob, jobsize);
 	//threads_no_pooling_test(totaljob, jobsize);
 	//thread_pool_test(1, totaljob, jobsize);
@@ -42,7 +70,7 @@ int main()
 	vector<pair<string, string>> equations = { { "a", "b" },{ "b", "c" } };
 	vector<double> values = { 2.0, 3.0 };
 	vector<pair<string, string>> queries = { { "a", "c" },{ "b", "a" },{ "a", "e" },{ "a", "a" },{ "x", "x" } };
-	auto answers = sol.calcEquation(equations,values,queries);
+	auto answers = sol.calcEquation(equations, values, queries);
 	cout << "answers = {";
 	for (auto& a : answers)
 	{
