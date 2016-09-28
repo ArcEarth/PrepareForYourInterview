@@ -143,7 +143,7 @@ namespace stdx
 
 			aug_path.assign(n, -1);
 
-			for (long x = 0; x < n; ++x)
+			for (index_t x = 0; x < n; ++x)
 			{
 				// If x is not matched to anything
 				if (xy[x] == -1)
@@ -157,8 +157,8 @@ namespace stdx
 			}
 
 
-			long x_start = 0;
-			long y_start = 0;
+			index_t x_start = 0;
+			index_t y_start = 0;
 
 			// Find an augmenting path.  
 			bool found_augmenting_path = false;
@@ -166,9 +166,9 @@ namespace stdx
 			{
 				while (q.size() > 0 && !found_augmenting_path)
 				{
-					const long x = q.front();
+					auto x = q.front();
 					q.pop_front();
-					for (long y = 0; y < n; ++y)
+					for (index_t y = 0; y < n; ++y)
 					{
 						if (cost(x, y) == lx[x] + ly[y] && !T[y])
 						{
@@ -215,7 +215,7 @@ namespace stdx
 				}
 
 				q.clear();
-				for (long y = 0; y < n; ++y)
+				for (index_t y = 0; y < n; ++y)
 				{
 					if (!T[y] && slack[y] == 0)
 					{
@@ -245,7 +245,7 @@ namespace stdx
 
 			  // Flip the edges aDenseIndex the augmenting path.  This means we will add one more
 			  // item to our matching.
-			for (long cx = x_start, cy = y_start, ty;
+			for (index_t cx = x_start, cy = y_start, ty;
 				cx != -1;
 				cx = aug_path[cx], cy = ty)
 			{
