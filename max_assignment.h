@@ -69,7 +69,7 @@ namespace stdx
 	std::vector<ptrdiff_t>
 		max_weight_bipartite_matching(const TCost &cost_, size_t nr, size_t nc)
 	{
-		using scalar_t = remove_cv_t<remove_const_t<decltype(cost_(0, 0))>>;
+		using scalar_t = decay_t<decltype(cost_(0, 0))>;
 		static_assert(std::is_arithmetic<scalar_t>::value, "scalar type must be arithmetic.");
 		using index_t = ptrdiff_t;
 		using namespace impl;

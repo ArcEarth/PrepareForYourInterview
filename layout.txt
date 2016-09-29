@@ -1,0 +1,58 @@
+vi.cpp
+
+class IVector	size(8):
+	+---
+ 0	| {vfptr}
+ 4	| ixx
+	+---
+
+class IVirtualInheritVector	size(12):
+	+---
+ 0	| {vbptr}
+	+---
+	+--- (virtual base IVector)
+ 4	| {vfptr}
+ 8	| ixx
+	+---
+
+class IVirtualInheritVector2	size(12):
+	+---
+ 0	| {vbptr}
+	+---
+	+--- (virtual base IVector)
+ 4	| {vfptr}
+ 8	| ixx
+	+---
+
+class IVirtualInheritVector3	size(16):
+	+---
+ 0	| +--- (base class IVirtualInheritVector2)
+ 0	| | {vbptr}
+	| +---
+ 4	| +--- (base class IVirtualInheritVector)
+ 4	| | {vbptr}
+	| +---
+	+---
+	+--- (virtual base IVector)
+ 8	| {vfptr}
+12	| ixx
+	+---
+
+class IVirtualInheritVector4	size(20):
+	+---
+ 0	| +--- (base class IVirtualInheritVector2)
+ 0	| | {vbptr}
+	| +---
+ 4	| +--- (base class IVirtualInheritVector3)
+ 4	| | +--- (base class IVirtualInheritVector2)
+ 4	| | | {vbptr}
+	| | +---
+ 8	| | +--- (base class IVirtualInheritVector)
+ 8	| | | {vbptr}
+	| | +---
+	| +---
+	+---
+	+--- (virtual base IVector)
+12	| {vfptr}
+16	| ixx
+	+---

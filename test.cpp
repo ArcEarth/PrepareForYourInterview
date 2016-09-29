@@ -31,11 +31,73 @@ struct mat_t {
 	size_t cols() const { return nc; }
 };
 
+struct empty_struct {};
+
+class IVector {
+	int ixx;
+	//virtual ~IVector() = 0;
+	virtual int get(int) const = 0;
+	virtual void set(int,int) = 0;
+	virtual int size() const = 0;
+};
+
+constexpr size_t szIv = sizeof(IVector); // == sizeof(void*)
+constexpr size_t szes = sizeof(empty_struct);
+
+struct _IVector {
+	struct _IVectorVirtualTable {
+		int(*get)(const _IVector*, int);
+		void(*set)(_IVector*, int, int);
+		int(*size)(const _IVector*);
+	};
+	_IVectorVirtualTable* __vfptr;
+};
+
+class IVirtualInheritVector : public virtual IVector {
+	int get(int) const override {
+		cout << "get";
+		return 0;
+	}
+	void set(int, int) override {
+		cout << "set";
+	}
+	int size() const override {
+		cout << "get";
+		return 0;
+	}
+
+};
+
+class IVirtualInheritVector2 : public virtual IVector {
+};
+
+class IVirtualInheritVector3 : public IVirtualInheritVector2, public IVirtualInheritVector {
+};
+
+class IVirtualInheritVector4 : public IVirtualInheritVector2, public IVirtualInheritVector3 {
+};
+
+
+class IInheritVector : public IVector {
+	virtual int foo();
+};
+
+constexpr size_t szIVv = sizeof(IVirtualInheritVector);
+constexpr size_t szIVv3 = sizeof(IVirtualInheritVector3);
+constexpr size_t szIVv4 = sizeof(IVirtualInheritVector4);
+constexpr size_t szIRv = sizeof(IInheritVector);
+
 
 int main()
 {
 	//seg_tree_test();
 	//bst_test();
+
+	auto ptr = new IVirtualInheritVector();
+	auto ptr3 = new IVirtualInheritVector3();
+	auto ptr4 = new IVirtualInheritVector4();
+
+	using it = decay_t<const int &>;
 
 	int poolsize = 4;
 	int totaljob = 1000;
